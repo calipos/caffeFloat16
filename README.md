@@ -7,3 +7,5 @@
 它们分别用来干相应的事情：版本1主要用来训练，而版本2则用来refine，针对movidus的项目
 
 没有实现cpu的版本，仅仅gpu。
+
+Requires sm_53+ (Pascal TitanX, GTX 1080,1070,1060,1050..， Tesla P4, P40 and others).（GeForce GTX TITAN not satisfy)
