@@ -1,0 +1,1 @@
+/media/hdd/lbl_trainData/git/caffe_build_/build/tools/caffe train --solver=/media/hdd/lbl_trainData/git/caffe_build_/examples/mnist/lenet_solver.prototxt --gpu="1"
