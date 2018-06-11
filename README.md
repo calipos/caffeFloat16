@@ -8,4 +8,4 @@
 
 没有实现cpu的版本，仅仅gpu。
 
-Requires sm_53+ (Pascal TitanX, GTX 1080,1070,1060,1050..， Tesla P4, P40 and others).（GeForce GTX TITAN not satisfy)
+Requires sm_53+ (Pascal TitanX, GTX 1080,1070,1060,1050..， Tesla P4, P40 and others).（GeForce GTX TITAN donot satisfy it.)
