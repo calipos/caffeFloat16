@@ -1,5 +1,5 @@
 # caffeFloat16
-私人代码，caffe中float16的训练/推断
+给自己用的，caffe中float16的训练/推断
 
 * 版本1是将float16的运算嵌入原layers中
 * 版本2是将float16的运算独立成另一个layer
