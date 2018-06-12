@@ -9,9 +9,12 @@ void ConvolutionFp16Layer<Dtype>::Forward_gpu(const vector<Blob<Dtype>*>& bottom
       const vector<Blob<Dtype>*>& top) {
   //std::cout<<"weight[0] = "<<this->blobs_[0]->cpu_data()[2]<<std::endl;
   const Dtype* weight = this->blobs_[0]->gpu_data();
-  
-  this->blobs_[0]->dataFloat2Half();
 
+    this->blobs_[0]->dataFloat2Half();
+    if (this->bias_term_)  this->blobs_[1]->dataFloat2Half();
+
+     //std::cout<<"-----------bottom half---------"<<std::endl;
+     //showDeviceHalf((__half*)bottom[0]->gpuFp16_data(),10);
   const __half* weight_fp16 = (const __half*)this->blobs_[0]->gpuFp16_data();
      //std::cout<<"-----------weight_fp16---fw---------"<<std::endl;
     //showDeviceHalf(weight_fp16,10);
@@ -25,18 +28,24 @@ void ConvolutionFp16Layer<Dtype>::Forward_gpu(const vector<Blob<Dtype>*>& bottom
           top_data + n * this->top_dim_);
       if (this->bias_term_) {
         const Dtype* bias = this->blobs_[1]->gpu_data();
-        this->blobs_[1]->dataFloat2Half();
         const __half* bias_fp16 = (const __half*)this->blobs_[1]->gpuFp16_data();
         this->forward_gpu_bias_half(top_data + n * this->top_dim_, bias_fp16);
       }
     }
     top[i]->dataHalf2Float();
+     //std::cout<<"-----------top half---------"<<std::endl;
+     //showDeviceHalf((__half*)top[0]->gpuFp16_data(),10);
+    // std::cout<<"-----------top ---------"<<std::endl;
+    // showDevice((float*)top[0]->gpu_data(),10);
   }
 }
 
 template <typename Dtype>
 void ConvolutionFp16Layer<Dtype>::Backward_gpu(const vector<Blob<Dtype>*>& top,
       const vector<bool>& propagate_down, const vector<Blob<Dtype>*>& bottom) {
+          
+          std::cout<<"================Backward_gpu=============="<<std::endl;
+          
       //std::cout<<"================Backward_gpu=============="<<std::endl;
   const Dtype* weight = this->blobs_[0]->gpu_data();
   const __half* weight_fp16 = (const __half*)this->blobs_[0]->gpuFp16_data();

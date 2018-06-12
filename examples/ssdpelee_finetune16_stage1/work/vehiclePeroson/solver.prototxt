@@ -1,0 +1,27 @@
+train_net: "/media/hdd/lbl_trainData/dataBase/ssdpelee/work/vehiclePeroson/train.prototxt"
+test_net: "/media/hdd/lbl_trainData/dataBase/ssdpelee/work/vehiclePeroson/test.prototxt"
+test_iter: 1500
+test_interval: 2000000
+base_lr: 0.00999999977648
+display: 100
+max_iter: 40002
+lr_policy: "multistep"
+gamma: 0.10000000149
+momentum: 0.899999976158
+weight_decay: 0.000500000023749
+snapshot: 2500
+snapshot_prefix: "/media/hdd/lbl_trainData/dataBase/ssdpelee/work/models/vehiclePeroson/ssd304p_vehiclePeroson"
+solver_mode: GPU
+device_id: 0
+debug_info: false
+snapshot_after_train: true
+test_initialization: false
+average_loss: 100
+stepvalue: 5000
+stepvalue: 30000
+stepvalue: 35000
+iter_size: 1
+type: "SGD"
+eval_type: "detection"
+ap_version: "11point"
+

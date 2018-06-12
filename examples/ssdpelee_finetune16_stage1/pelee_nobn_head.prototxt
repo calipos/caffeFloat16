@@ -1,0 +1,518 @@
+name: "ssd304p_vehiclePeroson_deploy"
+input: "data"
+input_shape {
+  dim: 1
+  dim: 3
+  dim: 304
+  dim: 304
+}
+layer {
+  name: "stem1"
+  type: "Convolution"
+  bottom: "data"
+  top: "stem1"
+  convolution_param {
+    num_output: 32
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stem1/relu"
+  type: "ReLU"
+  bottom: "stem1"
+  top: "stem1"
+}
+layer {
+  name: "stem2a"
+  type: "Convolution"
+  bottom: "stem1"
+  top: "stem2a"
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stem2a/relu"
+  type: "ReLU"
+  bottom: "stem2a"
+  top: "stem2a"
+}
+layer {
+  name: "stem2b"
+  type: "Convolution"
+  bottom: "stem2a"
+  top: "stem2b"
+  convolution_param {
+    num_output: 32
+    pad: 1
+    kernel_size: 3
+    stride: 2
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stem2b/relu"
+  type: "ReLU"
+  bottom: "stem2b"
+  top: "stem2b"
+}
+layer {
+  name: "stem/pool"
+  type: "Pooling"
+  bottom: "stem1"
+  top: "stem/pool"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "stem/concat"
+  type: "Concat"
+  bottom: "stem/pool"
+  bottom: "stem2b"
+  top: "stem/concat"
+  concat_param {
+    axis: 1
+  }
+}
+layer {
+  name: "stem3"
+  type: "Convolution"
+  bottom: "stem/concat"
+  top: "stem3"
+  convolution_param {
+    num_output: 32
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stem3/relu"
+  type: "ReLU"
+  bottom: "stem3"
+  top: "stem3"
+}
+layer {
+  name: "stage1_1/branch1a"
+  type: "Convolution"
+  bottom: "stem3"
+  top: "stage1_1/branch1a"
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stage1_1/branch1a/relu"
+  type: "ReLU"
+  bottom: "stage1_1/branch1a"
+  top: "stage1_1/branch1a"
+}
+layer {
+  name: "stage1_1/branch1b"
+  type: "Convolution"
+  bottom: "stage1_1/branch1a"
+  top: "stage1_1/branch1b"
+  convolution_param {
+    num_output: 16
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stage1_1/branch1b/relu"
+  type: "ReLU"
+  bottom: "stage1_1/branch1b"
+  top: "stage1_1/branch1b"
+}
+layer {
+  name: "stage1_1/branch2a"
+  type: "Convolution"
+  bottom: "stem3"
+  top: "stage1_1/branch2a"
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stage1_1/branch2a/relu"
+  type: "ReLU"
+  bottom: "stage1_1/branch2a"
+  top: "stage1_1/branch2a"
+}
+layer {
+  name: "stage1_1/branch2b"
+  type: "Convolution"
+  bottom: "stage1_1/branch2a"
+  top: "stage1_1/branch2b"
+  convolution_param {
+    num_output: 16
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stage1_1/branch2b/relu"
+  type: "ReLU"
+  bottom: "stage1_1/branch2b"
+  top: "stage1_1/branch2b"
+}
+layer {
+  name: "stage1_1/branch2c"
+  type: "Convolution"
+  bottom: "stage1_1/branch2b"
+  top: "stage1_1/branch2c"
+  convolution_param {
+    num_output: 16
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stage1_1/branch2c/relu"
+  type: "ReLU"
+  bottom: "stage1_1/branch2c"
+  top: "stage1_1/branch2c"
+}
+layer {
+  name: "stage1_1/concat"
+  type: "Concat"
+  bottom: "stem3"
+  bottom: "stage1_1/branch1b"
+  bottom: "stage1_1/branch2c"
+  top: "stage1_1/concat"
+  concat_param {
+    axis: 1
+  }
+}
+layer {
+  name: "stage1_2/branch1a"
+  type: "Convolution"
+  bottom: "stage1_1/concat"
+  top: "stage1_2/branch1a"
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stage1_2/branch1a/relu"
+  type: "ReLU"
+  bottom: "stage1_2/branch1a"
+  top: "stage1_2/branch1a"
+}
+layer {
+  name: "stage1_2/branch1b"
+  type: "Convolution"
+  bottom: "stage1_2/branch1a"
+  top: "stage1_2/branch1b"
+  convolution_param {
+    num_output: 16
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stage1_2/branch1b/relu"
+  type: "ReLU"
+  bottom: "stage1_2/branch1b"
+  top: "stage1_2/branch1b"
+}
+layer {
+  name: "stage1_2/branch2a"
+  type: "Convolution"
+  bottom: "stage1_1/concat"
+  top: "stage1_2/branch2a"
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stage1_2/branch2a/relu"
+  type: "ReLU"
+  bottom: "stage1_2/branch2a"
+  top: "stage1_2/branch2a"
+}
+layer {
+  name: "stage1_2/branch2b"
+  type: "Convolution"
+  bottom: "stage1_2/branch2a"
+  top: "stage1_2/branch2b"
+  convolution_param {
+    num_output: 16
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stage1_2/branch2b/relu"
+  type: "ReLU"
+  bottom: "stage1_2/branch2b"
+  top: "stage1_2/branch2b"
+}
+layer {
+  name: "stage1_2/branch2c"
+  type: "Convolution"
+  bottom: "stage1_2/branch2b"
+  top: "stage1_2/branch2c"
+  convolution_param {
+    num_output: 16
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stage1_2/branch2c/relu"
+  type: "ReLU"
+  bottom: "stage1_2/branch2c"
+  top: "stage1_2/branch2c"
+}
+layer {
+  name: "stage1_2/concat"
+  type: "Concat"
+  bottom: "stage1_1/concat"
+  bottom: "stage1_2/branch1b"
+  bottom: "stage1_2/branch2c"
+  top: "stage1_2/concat"
+  concat_param {
+    axis: 1
+  }
+}
+layer {
+  name: "stage1_3/branch1a"
+  type: "Convolution"
+  bottom: "stage1_2/concat"
+  top: "stage1_3/branch1a"
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stage1_3/branch1a/relu"
+  type: "ReLU"
+  bottom: "stage1_3/branch1a"
+  top: "stage1_3/branch1a"
+}
+layer {
+  name: "stage1_3/branch1b"
+  type: "Convolution"
+  bottom: "stage1_3/branch1a"
+  top: "stage1_3/branch1b"
+  convolution_param {
+    num_output: 16
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stage1_3/branch1b/relu"
+  type: "ReLU"
+  bottom: "stage1_3/branch1b"
+  top: "stage1_3/branch1b"
+}
+layer {
+  name: "stage1_3/branch2a"
+  type: "Convolution"
+  bottom: "stage1_2/concat"
+  top: "stage1_3/branch2a"
+  convolution_param {
+    num_output: 16
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stage1_3/branch2a/relu"
+  type: "ReLU"
+  bottom: "stage1_3/branch2a"
+  top: "stage1_3/branch2a"
+}
+layer {
+  name: "stage1_3/branch2b"
+  type: "Convolution"
+  bottom: "stage1_3/branch2a"
+  top: "stage1_3/branch2b"
+  convolution_param {
+    num_output: 16
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stage1_3/branch2b/relu"
+  type: "ReLU"
+  bottom: "stage1_3/branch2b"
+  top: "stage1_3/branch2b"
+}
+layer {
+  name: "stage1_3/branch2c"
+  type: "Convolution"
+  bottom: "stage1_3/branch2b"
+  top: "stage1_3/branch2c"
+  convolution_param {
+    num_output: 16
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "stage1_3/branch2c/relu"
+  type: "ReLU"
+  bottom: "stage1_3/branch2c"
+  top: "stage1_3/branch2c"
+}
+layer {
+  name: "stage1_3/concat"
+  type: "Concat"
+  bottom: "stage1_2/concat"
+  bottom: "stage1_3/branch1b"
+  bottom: "stage1_3/branch2c"
+  top: "stage1_3/concat"
+  concat_param {
+    axis: 1
+  }
+}

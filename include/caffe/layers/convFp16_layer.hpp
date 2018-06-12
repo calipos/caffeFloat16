@@ -17,7 +17,7 @@ class ConvolutionFp16Layer : public BaseConvolutionLayer<Dtype> {
  public:
 
   explicit ConvolutionFp16Layer(const LayerParameter& param)
-      : BaseConvolutionLayer<Dtype>(param) {}
+      : BaseConvolutionLayer<Dtype>(param),weightHasBeenConvert2Fp16(0) {}
 
   virtual inline const char* type() const { return "ConvolutionFp16"; }
 
@@ -32,6 +32,8 @@ class ConvolutionFp16Layer : public BaseConvolutionLayer<Dtype> {
       const vector<bool>& propagate_down, const vector<Blob<Dtype>*>& bottom);
   virtual inline bool reverse_dimensions() { return false; }
   virtual void compute_output_shape();
+  
+  int weightHasBeenConvert2Fp16;
 };
 
 }  
